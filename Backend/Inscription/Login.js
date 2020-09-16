@@ -1,4 +1,4 @@
-const User = require('../Modèle/model');
+const Model = require('../Modèle/model');
 const bcrypt = require('bcrypt');
 
 class Login{
@@ -18,13 +18,24 @@ class Login{
         })
     };
 
-    logUser(){
-        const user = new User();
-        let results =  user.findUser(this.login, this.password).then((result)=>{
+    async logUser(){
+        const db = new Model();
+        let hashedPassword = await this.hashPassword().then((hash)=>{
+            return hash;
+        });
+
+        let results =  await db.findUser(this.login, hashedPassword).then((result)=>{
                 return result;
         }).catch((err)=>{
             console.log(err);
         });
+        
+        if (results == '' || results == {} || results == []) {
+            return 'Les informations que vous avez envoyé sont incorrectes! Réessayez!'
+        }
+        else{
+            return results;
+        }
     }
 }
 

@@ -3,10 +3,9 @@ const http = require('http');
 const express = require('express');
 const app = express();
 const server = http.createServer(app);
-const mysql = require("mysql");
 const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');
-const User = require('../Modèle/model')
+const Login = require('../Inscription/Login');
+const SignUp = require('../Inscription/SignUp');
 
 app.use(require('express-session')({
     secret: 'keyboard cat',
@@ -17,20 +16,26 @@ app.use(require('express-session')({
 const urlEncodedParser = bodyParser.urlencoded({extended : false});
 app.use(cors());
 
-app.get('/', async(req, res)=>{
-    let user = new User();
-    let identifiants = {
-        login : "login",
-        password : "password"
-    };
-   let results = await user.findUser(identifiants).then((result)=>{
-        return result;
-   }).catch((err)=>{
-       console.log(err);
-   })
+app.post('/Login', urlEncodedParser, (req, res)=>{
+    let user = new Login(req.body.login, req.body.password);
+    user.logUser().then((result)=>{
+        if (typeof result == String) {
+            res.send(result);
+        } else {
+            res.redirect("http://localhost:8080/");
+        }
+    });
+});
 
-   console.log(results);
-    res.send('ok');
+app.post('/Inscription', urlEncodedParser, async (req, res)=>{
+    let newUser = new SignUp(
+        req.body.nom,
+        req.body.prénom,
+        req.body.téléphone,
+        req.body.email,
+        req.body.login,
+        req.body.password);
+    newUser.signUp();
 })
 
 server.listen(3000, function(){

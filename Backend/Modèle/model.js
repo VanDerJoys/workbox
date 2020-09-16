@@ -36,8 +36,17 @@ class Model{
                 } 
             });    
             this.endConnection();
+        })   
+    }
+
+    insertUser(nom, prénom, tel, email, login, password){
+        this.startConnection();
+        connection.query(`CALL createUser('${nom}', '${prénom}', ${tel}, '${email}', '${login}', '${password}')`, (err, results)=>{
+            if (err) {
+                console.log(err.message);
+            }
         })
-        
+        this.endConnection();
     }
 }
 
