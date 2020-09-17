@@ -6,6 +6,7 @@ const server = http.createServer(app);
 const bodyParser = require('body-parser');
 const Login = require('../Inscription/Login');
 const SignUp = require('../Inscription/SignUp');
+const Messages = require('../Gest_messages/Gest_messages');
 
 app.use(require('express-session')({
     secret: 'keyboard cat',
@@ -36,6 +37,15 @@ app.post('/Inscription', urlEncodedParser, async (req, res)=>{
         req.body.login,
         req.body.password);
     newUser.signUp();
+    res.end(200);
+});
+
+app.post('/messages', urlEncodedParser, async(req, res)=>{
+    let messages = new Messages();
+    let msg = await messages.getMessages().then((results)=>{
+        return results;
+    });
+    res.status(200).send(msg);
 })
 
 server.listen(3000, function(){
