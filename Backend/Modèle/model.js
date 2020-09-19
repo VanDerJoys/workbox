@@ -61,6 +61,30 @@ class Model{
             this.endConnection();
         })
     }
+
+    sendMessages(id, message, date, heure){
+        this.startConnection();
+        connection.query(`CALL sendMessages(${id}, '${message}', '${date}', '${heure}')`, (err, results)=>{
+            if(err){
+                console.log(err.message);
+            }
+        })
+        this.endConnection();
+    }
+
+    getMembers(idEnt){
+        return new Promise((resolve, reject)=>{
+            this.startConnection();
+            connection.query(`CALL getMessages(${idEnt})`, (err, results)=>{
+                if (err) {
+                    reject(err.message);
+                }
+                resolve(results);
+            })
+            this.endConnection();
+        });
+    }
+    
 }
 
 module.exports = Model;

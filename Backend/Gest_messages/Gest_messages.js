@@ -16,6 +16,11 @@ class Messages{
         });
         return messages;
     }
+
+    sendMessage(id, date, heure, message){
+        let db = new Model();
+        db.sendMessages(id, message, date, heure);
+    }
 }
 
 module.exports = Messages;
