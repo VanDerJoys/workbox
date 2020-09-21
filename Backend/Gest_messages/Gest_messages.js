@@ -1,25 +1,22 @@
-/* const http = require('http');
-const express = require('express');
-const app = express();
-const server = http.createServer(app);
-const socketio = require('socket.io');
-const io = socketio(server);
-const Model = require("../Modèle/model"); */
-
 const Model = require("../Modèle/model");
+const Horaires = require('../Gest_horaire/date_heure');
 
 class Messages{
     async getMessages(){
         let db = new Model();
         let messages = await db.getMessages().then((msg)=>{
             return msg;
-        });
+        }).catch((error)=>{
+            console.log(error);
+        })
         return messages;
     }
 
-    sendMessage(id, date, heure, message){
+    sendMessage(id, message){
+        let horaire = new Horaires();
+        let date_heure = horaire.getDateHour();
         let db = new Model();
-        db.sendMessages(id, message, date, heure);
+        db.sendMessages(id, message, date_heure.date, date_heure.heure);
     }
 }
 
