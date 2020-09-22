@@ -1,5 +1,8 @@
 <template>
-    <div class="annonces_box">
+    <div>
+        <navbar></navbar>
+        <div class="annonces_box row">
+            <sidebar></sidebar>
         <ul class="collection col s12 m8 offset-m2">
             <li class="collection-item avatar">
                 <img src="../assets/lady.jpg" alt="" class="circle">
@@ -43,9 +46,12 @@
             </div>
         </div>
     </div>
+    </div>
 </template>
 
 <script>
+    import Navbar from './components/Navbar';
+    import Sidebar from './components/Sidebar';
     import jQuery from 'jquery';
     window.jQuery = jQuery;
     
@@ -55,6 +61,10 @@
             this.$nextTick(function(){
                 jQuery('.collapsible').collapsible();
             })
+        },
+        components: {
+            'navbar' : Navbar,
+            'sidebar' : Sidebar
         }
     }
 </script>

@@ -7,26 +7,26 @@ const connection = mysql.createConnection({
 });
 
 class Model{
-    startConnection(){
+    /* startConnection(){
         connection.connect((err)=>{
             if (err) {
                 console.log(err.message);
             }
-            console.log("Connected");
+            console.log("connected");
         })
-    }
+    } */
 
-    endConnection(){
+    /* endConnection(){
         connection.end((err)=>{
             if (err) {
                 console.log(err.message);
             }
+            console.log("ended");
         })
-    }
+    } */
 
     findUser(login, password){
         return new Promise((resolve, reject)=>{
-            this.startConnection();
             connection.query(`CALL findUser('${login}', '${password}');`, (err, results)=>{
                 if (err) {
                     reject(err.message);
@@ -35,7 +35,6 @@ class Model{
                     resolve(results);
                 } 
             });    
-            this.endConnection();
         })   
     }
 

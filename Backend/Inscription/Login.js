@@ -23,18 +23,18 @@ class Login{
         let hashedPassword = await this.hashPassword().then((hash)=>{
             return hash;
         });
-
-        let results =  await db.findUser(this.login, hashedPassword).then((result)=>{
-                return result;
+        //Remplacer this.password par hashedPassword
+        let results =  await db.findUser(this.login, this.password).then((result)=>{
+            return result;
         }).catch((err)=>{
             console.log(err);
         });
         
-        if (results == '' || results == {} || results == []) {
-            return 'Les informations que vous avez envoyé sont incorrectes! Réessayez!'
+        if (results[0][0] == undefined || results[0][0] == {} || results[0][0] == []) {
+            return 'Les informations que vous avez envoyé sont incorrectes!'
         }
         else{
-            return results;
+            return results[0][0].id_compte;
         }
     }
 }

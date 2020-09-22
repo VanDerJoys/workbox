@@ -22,6 +22,7 @@ app.use(session({
 }));
 
 const urlEncodedParser = bodyParser.urlencoded({extended : false});
+app.use(bodyParser.json())
 app.use(cors());
 
 io.on('connection', socket => {
@@ -31,28 +32,29 @@ io.on('connection', socket => {
         messages.sendMessage(req.session.id_employé, req.body.msg);
         socket.to(req.session.id_entreprise).broadcast.emit(data);
     })
-    socket.on('join-room', () => {
-      socket.join(roomId)
-      socket.to(roomId).broadcast.emit('user-connected', userId)
+    // socket.on('join-room', () => {
+    //   socket.join(roomId)
+    //   socket.to(roomId).broadcast.emit('user-connected', userId)
   
-      socket.on('disconnect', () => {
-        socket.to(roomId).broadcast.emit('user-disconnected', userId)
-      })
-    })
+    //   socket.on('disconnect', () => {
+    //     socket.to(roomId).broadcast.emit('user-disconnected', userId)
+    //   })
+    // })
 })
 
-app.post('/Login', urlEncodedParser, async(req, res)=>{
+app.post('/Login', async(req, res)=>{
     let user = new Login(req.body.login, req.body.password);
     let infoUser =  await user.logUser().then((result)=>{
-        return result;
-    });
-    if (infoUser == '' || infoUser == {} || infoUser == []) {
+        return result
+    }).catch((error)=>{
+        console.log(error);
+    })
+    
+    if (typeof infoUser == 'string') {
         res.send(infoUser);
     }
     else{
-        req.session = infoUser;
-        res.redirect('http://localhost:8080');
-        // res.send(infoUser);
+        res.json(infoUser);
     }
 });
 
@@ -68,14 +70,8 @@ app.post('/Inscription', urlEncodedParser, async (req, res)=>{
     res.end(200);
 });
 
-//send messages
-// app.post('/messages', urlEncodedParser, (req, res)=>{
-    
-//     res.status(200).end();
-// });
-
 // get messages
-app.get('/messages', (req, res)=>{
+app.get('/messages', async(req, res)=>{
     let messages = new Messages();
     let msg = await messages.getMessages().then((results)=>{
         return results;
