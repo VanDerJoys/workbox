@@ -1,28 +1,24 @@
 <template>
-  <div>
-    <div v-if="authSuccess" class="container" style="margin-top : 5%;">
-      <login v-on:authentification="auth(data)"></login>
+    <div class="container" style="margin-top : 5%;">
+      <login></login>
     </div>
-    <div v-else>
+    <!-- <div>
       <div class="row">
-        <!-- home page, chat, announcement, notifications and tasks start -->
         <div class="col s12 m9">
           <component v-bind:is="component"></component>
         </div>
-        <!-- home page, chat, announcement, notifications and tasks end -->
       </div>
-    </div>
-  </div>
+    </div> -->
 </template>
 
 <script>
   import jQuery from 'jquery';
   window.jQuery = jQuery;
   
-  import Accueil from './components/Accueil';
+  /* import Accueil from './components/Accueil';
   import Discussions from './components/Discussions';
   import Annonces from './components/Annonces';
-  import Tâches from './components/Tâches';
+  import Tâches from './components/Tâches'; */
   import Login from './components/Login';
 
   export default {
@@ -34,10 +30,10 @@
       }
     },
     components: {
-      'discussions' : Discussions,
+      /* 'discussions' : Discussions,
       'accueil' : Accueil,
       'annonces' : Annonces,
-      'tâches' : Tâches,
+      'tâches' : Tâches, */
       'login' : Login
     }, 
     mounted(){
