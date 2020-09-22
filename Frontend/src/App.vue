@@ -1,41 +1,15 @@
 <template>
-    <div class="container" style="margin-top : 5%;">
-      <login></login>
+    <div id="app">
+      <router-view></router-view>
     </div>
-    <!-- <div>
-      <div class="row">
-        <div class="col s12 m9">
-          <component v-bind:is="component"></component>
-        </div>
-      </div>
-    </div> -->
 </template>
 
 <script>
   import jQuery from 'jquery';
   window.jQuery = jQuery;
-  
-  /* import Accueil from './components/Accueil';
-  import Discussions from './components/Discussions';
-  import Annonces from './components/Annonces';
-  import Tâches from './components/Tâches'; */
-  import Login from './components/Login';
 
   export default {
     name: 'App',
-    data(){
-      return{
-        component : 'accueil',
-        authSuccess : true
-      }
-    },
-    components: {
-      /* 'discussions' : Discussions,
-      'accueil' : Accueil,
-      'annonces' : Annonces,
-      'tâches' : Tâches, */
-      'login' : Login
-    }, 
     mounted(){
       this.$nextTick(function(){
         jQuery('.sidenav').sidenav();
@@ -51,8 +25,8 @@
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 60px; */
 }
 </style>

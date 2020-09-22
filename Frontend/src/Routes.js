@@ -1,13 +1,9 @@
 import Login from './components/Login.vue'
-import Accueil from './components/Accueil.vue'
-import Discussions from './components/Discussions.vue'
-import Tâches from './components/Tâches.vue'
-import Annonces from './components/Annonces.vue'
+import Workbox from './components/WorkBox.vue'
+import Inscription from './components/Inscription.vue'
 
 export default[
-    {path : '/', component : Login},
-    {path : '/Accueil', component : Accueil},
-    {path : '/Discussions', component : Discussions},
-    {path : '/Tâches', component : Tâches},
-    {path : '/Annonces', component : Annonces}
+    {path : '/', component : Inscription},
+    {path : '/Login', component : Login},
+    {path : '/Workbox', component : Workbox}
 ]
