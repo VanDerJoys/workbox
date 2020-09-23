@@ -7,7 +7,7 @@ class SignUp{
         this.téléphone = téléphone;
         this.email = email;
         this.login = login;
-        this.password = password
+        this.password = password;
     }
 
     async signUp(){

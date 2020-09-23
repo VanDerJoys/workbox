@@ -24,7 +24,7 @@ class Login{
             return hash;
         });
         //Remplacer this.password par hashedPassword
-        let results =  await db.findUser(this.login, this.password).then((result)=>{
+        let results =  await db.findUser(this.login, hashedPassword).then((result)=>{
             return result;
         }).catch((err)=>{
             console.log(err);

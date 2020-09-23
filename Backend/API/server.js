@@ -58,7 +58,7 @@ app.post('/Login', async(req, res)=>{
     }
 });
 
-app.post('/Inscription', urlEncodedParser, async (req, res)=>{
+app.post('/Inscription', (req, res)=>{
     let newUser = new SignUp(
         req.body.nom,
         req.body.prénom,
@@ -67,7 +67,7 @@ app.post('/Inscription', urlEncodedParser, async (req, res)=>{
         req.body.login,
         req.body.password);
     newUser.signUp();
-    res.end(200);
+    res.status(200).redirect('/Login');
 });
 
 // get messages
