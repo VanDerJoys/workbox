@@ -68,6 +68,7 @@
                     <li><a href="#!"><i class="material-icons">person</i>Julienne Nnanga</a></li>
                     <li><a href="#!"><i class="material-icons">person</i>Marcel Zoa</a></li>
                     <li><a href="#!"><i class="material-icons">person</i>Charlotte Mendana</a></li>
+                    <li><a href="#!"></a></li>
                 </ul>
             </div>
             <div class="col s12 m9">
