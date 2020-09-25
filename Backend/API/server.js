@@ -7,6 +7,7 @@ const server = http.createServer(app);
 const bodyParser = require('body-parser');
 const socketio = require('socket.io');
 const io = socketio(server);
+const cookieParser = require('cookie-parser');
 const Login = require('../Inscription/Login');
 const SignUp = require('../Inscription/SignUp');
 const Messages = require('../Gest_messages/Gest_messages');
@@ -14,6 +15,7 @@ const Id = require('../Connections/conn');
 const Members = require('../Gest_compte/Members');
 const Horaires = require('../Gest_horaire/date_heure');
 
+app.use(cookieParser());
 app.use(session({
     secret: 'azerty',
     resave: false,
@@ -42,8 +44,9 @@ io.on('connection', socket => {
     // })
 })
 
-app.post('/Login', async(req, res)=>{
-    let user = new Login(req.body.login, req.body.password);
+app.post('/Login', urlEncodedParser, (req, res)=>{
+    console.log(req.session.data);
+    /* let user = new Login(req.body.login, req.body.password);
     let infoUser =  await user.logUser().then((result)=>{
         return result
     }).catch((error)=>{
@@ -54,20 +57,22 @@ app.post('/Login', async(req, res)=>{
         res.send(infoUser);
     }
     else{
-        res.json(infoUser);
-    }
+        res.redirect(`http://localhost:8080/Workbox`)
+    } */
+    res.redirect(`http://localhost:8080/Workbox`)
 });
 
-app.post('/Inscription', (req, res)=>{
-    let newUser = new SignUp(
-        req.body.nom,
-        req.body.prénom,
-        req.body.téléphone,
-        req.body.email,
-        req.body.login,
-        req.body.password);
-    newUser.signUp();
-    res.status(200).redirect('/Login');
+app.post('/Inscription', urlEncodedParser, (req, res)=>{
+    req.session.data = req.body
+    // let newUser = new SignUp(
+    //     req.body.nom,
+    //     req.body.prénom,
+    //     req.body.téléphone,
+    //     req.body.email,
+    //     req.body.login,
+    //     req.body.password);
+    // newUser.signUp();
+    console.log(req.session);
 });
 
 // get messages
@@ -81,7 +86,7 @@ app.get('/messages', async(req, res)=>{
     res.send(msg)
 })
 
-app.get('/', async(req, res)=>{
+app.get('/Workbox', async(req, res)=>{
     let members = new Members();
     let mbrs = await members.getMembers(req.session.id_entreprise).then((results)=>{
         return results;

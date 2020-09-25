@@ -1,28 +1,33 @@
 <template>
-    <div class="row">
-      <div class="col s12 m6 offset-m3">
-        <div class="card">
-          <div class="card-content">
-            <h4 class="center">Authentification</h4>
-              <div class="input-field col s12">
-                <i class="material-icons prefix">account_circle</i>
-                <input v-model="login" id="icon_prefix" type="text" class="validate" name="login">
-                <label for="icon_prefix">Nom utilisateur</label>
-              </div>
-              <div class="input-field col s12">
-                <i class="material-icons prefix">lock</i>
-                <input v-model="password" id="icon_lock" v-bind:type="type" class="validate" name="password">
-                <i class="material-icons prefix" @click="toggle()" id="eye">{{visibility}}</i>
-                <label for="icon_lock">Mot de passe</label>
-              </div>
-              <button class="btn pink" @click="submit()">Envoyer</button>
-          </div>
-        </div>
-        <div v-if="error" class="card-panel red accent-3 center">
-          <span class="white-text">
-            {{messageError}}
-          </span>
-        </div>
+    <div class="container row">
+      <div class="col s12 m12">
+        <div class="card horizontal">
+                <div id="title" class="card-image col s12 m6">
+                    <img class="col" src="../assets/undraw_web_developer_p3e5.svg" alt="">
+                </div>
+                <div class="card-stacked col s12 m6">
+                    <div class="card-content">
+                        <h4 class="center">Authentification</h4>
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input id="icon_prefix" v-model="login" type="text" class="validate" name="login" required>
+                                <label for="icon_prefix">Nom utilisateur</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">lock</i>
+                                <input id="icon_lock" v-model="password" v-bind:type="type" class="validate" name="password" required>
+                                <i class="material-icons prefix" @click="toggle()" id="eye">{{visibility}}</i>
+                                <label for="icon_lock">Mot de passe</label>
+                            </div>
+                            <button class="btn pink" @click="submit()">Envoyer <i class="material-icons right">send</i></button>
+                    </div>
+                    <div v-if="error" class="card-action red darken-1">
+                      <span class="white-text center">
+                        {{messageError}}
+                      </span>
+                    </div>
+                </div>
+            </div>
       </div>
     </div>
 </template>
@@ -72,5 +77,12 @@ export default {
 <style scoped>
   #eye{
     cursor: pointer;
+  }
+  .card-image{
+        margin-top: 50px;
+    }
+  .card{
+    padding: 5%;
+    margin-top: 60px;
   }
 </style>

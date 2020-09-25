@@ -15,7 +15,9 @@ class SignUp{
         let db = new Model();
         let hashedPassword = await pwd.hashPassword().then((hash)=>{
             return hash;
-        });
+        }).catch((err)=>{
+            console.log(err);
+        })
         db.insertUser(this.nom,this.prénom,this.téléphone,this.email,this.login,hashedPassword);
     }
 }
