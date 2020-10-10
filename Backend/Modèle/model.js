@@ -3,7 +3,8 @@ const connection = mysql.createConnection({
     "host": "localhost",
     "user": "root",
     "password": "",
-    "database": "workbox"
+    "database": "workbox",
+    "port" : 3308
 });
 
 class Model{
@@ -40,26 +41,33 @@ class Model{
     }
 
     sendMessages(id, message, date, heure){
-        this.startConnection();
-        connection.query(`CALL sendMessages(${id}, '${message}', '${date}', '${heure}')`, (err, results)=>{
+        connection.query(`CALL sendMessage(${id}, '${message}', '${date}', '${heure}')`, (err, results)=>{
             if(err){
                 console.log(err.message);
             }
         })
-        this.endConnection();
     }
 
-    getMembers(idEnt){
+    getMembers(idEmp){
         return new Promise((resolve, reject)=>{
-            this.startConnection();
-            connection.query(`CALL getMessages(${idEnt})`, (err, results)=>{
+            connection.query(`CALL getMembers(${idEmp})`, (err, results)=>{
                 if (err) {
                     reject(err.message);
                 }
                 resolve(results);
             })
-            this.endConnection();
         });
+    }
+
+    getName(idEmp){
+        return new Promise((resolve, reject)=>{
+            connection.query(`CALL getName(${idEmp})`, (err, results)=>{
+                if (err) {
+                    reject(err.message);
+                }
+                resolve(results);
+            })
+        })
     }
     
 }
