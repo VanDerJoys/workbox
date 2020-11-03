@@ -8,7 +8,7 @@
                 <div class="card-stacked col s12 m6">
                     <div class="card-content">
                         <h4 class="center">Inscription</h4>
-                        <form action="http://192.168.0.46:3000/Inscription" method="post">
+                        <form action="http://localhost:3000/Inscription" method="post">
                             <div class="input-field col s12 m6">
                                 <i class="material-icons prefix">person</i>
                                 <input id="icon_prefix" type="text" class="validate" name="nom" required>

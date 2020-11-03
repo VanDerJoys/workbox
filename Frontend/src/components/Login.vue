@@ -59,7 +59,7 @@ export default {
       }
     },
     async submit(){
-      let réponse = await axios.post('http://192.168.0.46:3000/Login', {login : this.login, password : this.password}).then((res)=>{
+      let réponse = await axios.post('http://localhost:3000/Login', {login : this.login, password : this.password}).then((res)=>{
         return res;
       });
       if (typeof réponse.data == 'string') {
@@ -67,7 +67,9 @@ export default {
         this.messageError = réponse.data;
       }
       else{
-        this.$emit('authentification', true)
+        window.location.replace("http://localhost:8080/workbox/"+réponse.data.id_employé);
+        /* this.$session.start();
+        this.$session.set('id', réponse.data.id_employé); */
       }
     }
   }

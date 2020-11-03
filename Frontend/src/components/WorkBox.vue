@@ -8,12 +8,12 @@
 
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li>
-                    <a href="#discussions" class="pink btn-floating tooltipped" data-position="bottom" data-tooltip="Discussions" v-on:click="component = 'discussions'">
+                    <a class="pink btn-floating tooltipped" data-position="bottom" data-tooltip="Discussions" v-on:click="component = 'discussions'">
                     <i class="material-icons">chat</i>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="pink btn-floating tooltipped dropdown-trigger" data-target='dropdown1' data-position="bottom" data-tooltip="Notifications">
+                    <a class="pink btn-floating tooltipped dropdown-trigger" data-target='dropdown1' data-position="bottom" data-tooltip="Notifications">
                     
                     <i class="material-icons">notifications</i>
                     </a>
@@ -26,21 +26,21 @@
                         <li><a href="#!"><i class="material-icons">cloud</i>Notification 1</a></li>
                     </ul>
                 <li>
-                    <a href="#annonces" class="pink btn-floating tooltipped" data-position="bottom" data-tooltip="Annonces" v-on:click="component = 'annonces'">
+                    <a class="pink btn-floating tooltipped" data-position="bottom" data-tooltip="Annonces" v-on:click="component = 'annonces'">
                     <i class="material-icons">style</i>
                     </a>
                 </li>
                 <li>
-                    <a href="#tâches" class="pink btn-floating tooltipped" data-position="bottom" data-tooltip="Tâches" v-on:click="component = 'tâches'">
+                    <a class="pink btn-floating tooltipped" data-position="bottom" data-tooltip="Tâches" v-on:click="component = 'tâches'">
                     <i class="material-icons">assignment</i>
                     </a>
                 </li>
                 </ul>
                 <ul class="sidenav" id="mobile-demo">
-                <li><a href="#" class="pink btn white-text" v-on:click="component = 'discussions'"><i class="material-icons">chat</i> Discussions</a></li>
-                <li><a href="#" class="pink btn white-text" v-on:click="component = 'annonces'"><i class="material-icons">style</i> Annonces</a></li>
-                <li><a href="#" class="pink btn white-text" v-on:click="component = 'notifications'"><i class="material-icons">notifications</i> Notifications</a></li>
-                <li><a href="#" class="pink btn white-text" v-on:click="component = 'tâches'"><i class="material-icons">assignment</i>Tâches</a></li>
+                    <li><a class="pink btn white-text" v-on:click="component = 'discussions'"><i class="material-icons">chat</i> Discussions</a></li>
+                    <li><a class="pink btn white-text" v-on:click="component = 'annonces'"><i class="material-icons">style</i> Annonces</a></li>
+                    <li><a class="pink btn white-text" v-on:click="component = 'notifications'"><i class="material-icons">notifications</i> Notifications</a></li>
+                    <li><a class="pink btn white-text" v-on:click="component = 'tâches'"><i class="material-icons">assignment</i>Tâches</a></li>
                 </ul>
             </div>
         </nav>
@@ -53,21 +53,22 @@
                             <img src="../assets/sweets-2.jpeg">
                         </div>
                         <a href="#user"><img class="circle" src="../assets/lady.jpg"></a>
-                        <span class="dark-text name flow-text">Charlie Dan</span>
-                        <span class="dark-text email">WhiteBoard Enterprise</span>
+                        <span class="dark-text name flow-text">{{nom}} {{prénom}}</span>
+                        <!-- <span class="dark-text email">WhiteBoard</span> -->
                         </div>
                     </li>
                     <li><a href="#!"><i class="material-icons">location_city</i>Entreprise</a></li>
-                    <li><a href="#!"><i class="material-icons">voice_chat</i>Réunions</a></li>
+                    <li><router-link to="/Réunions"><i class="material-icons">voice_chat</i>Réunions</router-link></li>
                     <li><div class="divider"></div></li>
                     <li><a class="subheader">Membres</a></li>
-                    <li><a href="#!"><i class="material-icons">person</i>Yvette Ayinda<i class="material-icons teal-text text-accent-4 small right">supervisor_account</i></a></li>
-                    <li><a href="#!"><i class="material-icons">person</i>Ohrel Ze</a></li>
-                    <li><a href="#!"><i class="material-icons">person</i>Vanelle Audrey</a></li>
-                    <li><a href="#!"><i class="material-icons">person</i>Tierno Gilles<i class="material-icons teal-text text-accent-4 right">work</i></a></li>
-                    <li><a href="#!"><i class="material-icons">person</i>Julienne Nnanga</a></li>
-                    <li><a href="#!"><i class="material-icons">person</i>Marcel Zoa</a></li>
-                    <li><a href="#!"><i class="material-icons">person</i>Charlotte Mendana</a></li>
+                    <div v-if="membresTrouvés">
+                        <div v-bind:key="membre" v-for="membre in membres">
+                            <li><a href="#!"><i class="material-icons">person</i>{{membre.nom}} {{membre.prenom}}</a></li>
+                        </div>                        
+                    </div>
+                    <div v-else>
+                        <li><a class="subheader"><b>{{membres}}</b></a></li>
+                    </div>
                     <li><a href="#!"></a></li>
                 </ul>
             </div>
@@ -83,11 +84,16 @@
     import Discussions from './Discussions';
     import Annonces from './Annonces';
     import Tâches from './Tâches';
+    import axios from 'axios';
     export default {
         name: 'Workbox',
         data(){
             return{
-                component : 'accueil'
+                component : 'accueil',
+                membres : undefined,
+                membresTrouvés: false,
+                nom : '',
+                prénom : ''
             }
         },
         components: {
@@ -95,6 +101,19 @@
             'accueil' : Accueil,
             'annonces' : Annonces,
             'tâches' : Tâches
+        },
+        mounted: async function(){
+            let members = await axios.get(`http://localhost:3000${window.location.pathname}`);
+            this.nom = members.data.name[0][0].nom;
+            this.prénom = members.data.name[0][0].Prenom;
+            if (members.data.mbrs[0].length == 0) {
+                this.membresTrouvés = false;
+                this.membres = "Aucun membre trouvé";
+            }
+            else{
+                this.membresTrouvés = true;
+                this.membres = members.data.mbrs[0];
+            }
         }
     }
 </script>

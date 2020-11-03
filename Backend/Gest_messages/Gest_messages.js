@@ -3,13 +3,13 @@ const Horaires = require('../Gest_horaire/date_heure');
 
 class Messages{
     async getMessages(){
-        let db = new Model();
-        let messages = await db.getMessages().then((msg)=>{
-            return msg;
-        }).catch((error)=>{
+        try {
+            let db = new Model();
+            let messages = await db.getMessages();
+            return messages;
+        } catch (error) {
             console.log(error);
-        })
-        return messages;
+        }
     }
 
     sendMessage(id, message){
