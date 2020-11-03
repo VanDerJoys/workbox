@@ -13,12 +13,7 @@ class SignUp{
     async signUp(){
         let pwd = new Login(this.login, this.password);
         let db = new Model();
-        let hashedPassword = await pwd.hashPassword().then((hash)=>{
-            return hash;
-        }).catch((err)=>{
-            console.log(err);
-        })
-        db.insertUser(this.nom,this.prénom,this.téléphone,this.email,this.login,hashedPassword);
+        db.insertUser(this.nom,this.prénom,this.téléphone,this.email,this.login,pwd.hashPassword());
     }
 }
 

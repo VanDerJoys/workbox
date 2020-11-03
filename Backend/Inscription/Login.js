@@ -1,5 +1,5 @@
 const Model = require('../Modèle/model');
-const bcrypt = require('bcrypt');
+const CryptoJs = require('crypto-js');
 
 class Login{
     constructor(login, password) {
@@ -8,33 +8,22 @@ class Login{
     }
     
     hashPassword(){
-        return new Promise((resolve, reject)=>{
-            bcrypt.hash(this.password, 10, (err, hash)=>{
-                if (err) {
-                    reject(err.message);
-                }
-                resolve(hash);
-            })
-        })
+        return CryptoJs.MD5(this.password, "workbox").toString();
     };
 
     async logUser(){
         const db = new Model();
-        let hashedPassword = await this.hashPassword().then((hash)=>{
-            return hash;
-        });
         //Remplacer this.password par hashedPassword
-        let results =  await db.findUser(this.login, hashedPassword).then((result)=>{
+        let results =  await db.findUser(this.login, this.hashPassword()).then((result)=>{
             return result;
         }).catch((err)=>{
             console.log(err);
         });
-        
         if (results[0][0] == undefined || results[0][0] == {} || results[0][0] == []) {
             return 'Les informations que vous avez envoyé sont incorrectes!'
         }
         else{
-            return results[0][0].id_compte;
+            return results[0][0];
         }
     }
 }
