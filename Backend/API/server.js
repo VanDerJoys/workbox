@@ -1,5 +1,4 @@
 const cors = require('cors');
-const session = require('express-session');
 const http = require('http');
 const express = require('express');
 const app = express();
@@ -16,12 +15,6 @@ const Members = require('../Gest_compte/Members');
 const Task = require('../Plannification_tâches/Task');
 
 app.use(cookieParser());
-app.use(session({
-    secret: 'azerty',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}));
 
 const urlEncodedParser = bodyParser.urlencoded({extended : false});
 app.use(bodyParser.json())
