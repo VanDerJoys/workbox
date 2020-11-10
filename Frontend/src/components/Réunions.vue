@@ -10,22 +10,20 @@
 
 <script>
 import io from 'socket.io-client';
-import SimplePeer from 'simple-peer';
 
 export default {
     name : "réunions",
     data(){
       return {
-        socket : io('localhost:3000'),
-        peer : new SimplePeer({
-          initiator : true,
-          stream : false
-        })
+        socket : io('localhost:3000')
       }
     },
     methods: {
-      startVideo(){
-        
+      userMedia(){
+        navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: true
+        }).then(this.startVideo).catch(() => {})
       }
     }
 }
