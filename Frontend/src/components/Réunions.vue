@@ -2,7 +2,7 @@
   <div>
     <div id="video-grid"></div>
     <div class="container">
-      <h6 class="center"><button class="btn purple darken-1" @click="startVideo()">Rejoindre la réunion</button></h6>
+      <h6 class="center"><button class="btn purple darken-1" @click="startVideo">Rejoindre la réunion</button></h6>
       <p><img class="right" src="../assets/undraw_conference_call_b0w6.svg" alt=""></p>
     </div>
   </div>
