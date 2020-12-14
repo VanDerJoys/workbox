@@ -24,6 +24,11 @@ export default {
           video: true,
           audio: true
         }).then(this.startVideo).catch(() => {})
+      },
+      startVideo(stream){
+        let video = document.querySelector('video');
+        video.srcObject = stream;
+        video.play();
       }
     }
 }
